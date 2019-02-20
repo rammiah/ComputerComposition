@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 
-module CPU(clk, rst, SEG, AN, ext_a, sel, freq);
-    input clk, rst, freq;
+module CPU(clk, rst, SEG, AN, ext_a, sel, freq, go);
+    input clk, rst, freq, go;
     output [7:0] SEG, AN;
     input [4:0] ext_a;
     input [2:0] sel;
@@ -22,15 +22,15 @@ module CPU(clk, rst, SEG, AN, ext_a, sel, freq);
     wire [31:0] reg_din;
     wire [31:0] reg_d1, reg_d2;
     wire [4:0] tmp0;
-    wire run, pause, go;
+    wire run, pause;
     
     wire [31:0] pc4;
     wire [31:0] ext_d;
     wire clk_H, clk_L;
     Divider #(.N(32))div_l(.clk(clk), .clk_N(clk_L));
-    Divider #(.N(10_000_000))div_h(.clk(clk), .clk_N(clk_H));
-    assign go = 0;
-//    assign clk_N = clk;
+//    assign clk_H = clk;
+    Divider #(.N(50_000_000)) div_h(.clk(clk), .clk_N(clk_H));
+//    assign go = 0;
     assign clk_N = freq ? clk_H : clk_L;
     assign pc4 = pc_out + 4;
     assign run = ~pause | go;
@@ -55,7 +55,7 @@ module CPU(clk, rst, SEG, AN, ext_a, sel, freq);
     wire [31:0] tmp1;
     
     MUX2 #(.N(32)) m4(.sel(UnsignedExt), .D0({{16{rom_out[15]}},rom_out[15:0]}), 
-           .D1({{16{0}},rom_out[15:0]}), .Dout(tmp1));    
+           .D1({{16{1'b0}},rom_out[15:0]}), .Dout(tmp1));    
     MUX2 #(.N(32)) m5(.sel(AluSrc), .D0(reg_d2), .D1(tmp1), .Dout(alu_b));
     wire [4:0] shamt;
     wire [31:0] Result, Result2;
