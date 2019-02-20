@@ -1,4 +1,11 @@
 `timescale 1ns / 1ps
-// 多路选择器，选择信号为1位的，区别2个输入
-module MUX2();
+
+module MUX2(sel, D0, D1, Dout);
+    parameter N = 32;
+    input wire [N - 1:0] D0, D1;
+    input wire sel;
+    output wire [N - 1:0] Dout;
+    
+    assign Dout = sel == 0 ? D0 : D1;
+
 endmodule
