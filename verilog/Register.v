@@ -1,24 +1,25 @@
 `timescale 1ns / 1ps
 
-module Counter(clk, en, rst, cnt);
-    input wire clk, en, rst;
-    output reg [31:0] cnt;
+module Register(Din, Dout, en, clk, rst);
+    input wire [31:0] Din;
+    output reg [31:0] Dout;
+    input en, clk, rst;
     
     initial
     begin
-        cnt = 0;
+        Dout <= 0;
     end
-    
     
     always @(posedge clk)
     begin
         if (rst)
         begin
-            cnt = 0;
+            Dout <= 0;
         end else if (en)
         begin
-            cnt = cnt + 1;
+            Dout <= Din;
         end
     end
+
 
 endmodule
