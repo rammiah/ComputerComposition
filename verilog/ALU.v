@@ -11,9 +11,9 @@ module ALU(X, Y, shamt, AluOp, Result, Result2, Equal);
     always @(X, Y, shamt, AluOp)
     begin
         case (AluOp)
-        0: Result <= (Y << shamt);
-        1: Result <= $signed(Y) >> shamt;
-        2: Result <= $unsigned(Y) >> shamt;
+        0: Result <= Y << shamt;
+        1: Result <= $signed(Y) >>> shamt;
+        2: Result <= Y >> shamt;
         3: {Result2, Result} <= X * Y;
         4: Result <= X / Y;
         5: Result <= X + Y;

@@ -9,9 +9,8 @@ module ROM(addr, data);
     reg [31:0] ha;
     initial
     begin
-        $readmemh("E:/Documents/Computer/MIPS_CPU/instr.hex", my_rom);
+        $readmemh("E:/Documents/Computer/MIPS_CPU/benchmark_ccmb.hex", my_rom);
         $display("0x00: %h", my_rom[8'h00]);
-        data = my_rom[8'h00];
     end
     // data load when addr is updated
     always @(addr)
